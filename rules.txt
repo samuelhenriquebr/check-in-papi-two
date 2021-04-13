@@ -1,0 +1,11 @@
+version '0.5.1'
+
+flow are camel cased
+
+element 'logger' hasAttribute 'category'
+
+element 'logger' hasParent 'until-successful'
+
+element 'http:request' hasChild 'User-Agent'
+
+element 'http:request' hasChild 'http:header' withAttribute 'headerName' havingValue 'User-Agent' withAttribute 'value' havingValue 'my-bot-name 1.0'

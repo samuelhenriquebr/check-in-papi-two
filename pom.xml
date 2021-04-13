@@ -33,6 +33,17 @@
 				<configuration>
 				</configuration>
 			</plugin>
+			<plugin>
+			      <groupId>org.nuisto</groupId>
+			      <artifactId>mule-lint-maven-plugin</artifactId>
+			      <version>0.5.1</version>
+			      <configuration>
+			        <rules>rules.txt</rules>
+			        <sources>src/main</sources>
+			        <output>mule-lint-results.json</output>
+			        <dictionary>words.txt</dictionary>
+			      </configuration>
+		    </plugin>
 		</plugins>
 	</build>
 
