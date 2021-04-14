@@ -18,7 +18,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<flow name="api-main">
 		<http:listener
 			config-ref="apiHttpsListenerConfig"
-			path="/api/v1/*">
+			path="/api/${api.majorVersion}/*">
 			<http:response statusCode="#[vars.httpStatus default 200]">
 				<http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
 			</http:response>
@@ -34,7 +34,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<flow name="api-console">
 		<http:listener
 			config-ref="apiHttpsListenerConfig"
-			path="/console/v1/*">
+			path="/console/${api.majorVersion}/*">
 			<http:response statusCode="#[vars.httpStatus default 200]">
 				<http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
 			</http:response>
