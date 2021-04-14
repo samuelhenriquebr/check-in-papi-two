@@ -1,113 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+<mule
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
 http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd
 http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-    
 
-	
+
+
 	<flow name="api-main">
-        <http:listener config-ref="apiHttpsListenerConfig" path="/api/v1/*">
-            <http:response statusCode="#[vars.httpStatus default 200]">
-                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
-            </http:response>
-            <http:error-response statusCode="#[vars.httpStatus default 500]">
-                <http:body><![CDATA[#[payload]]]></http:body>
-                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
-            </http:error-response>
-        </http:listener>
-        <apikit:router config-ref="apiConfig" />
-		<error-handler ref="api-main-error-handler" />	
-    </flow>
-    
-    <flow name="api-console">
-        <http:listener config-ref="apiHttpsListenerConfig" path="/console/v1/*">
-            <http:response statusCode="#[vars.httpStatus default 200]">
-                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
-            </http:response>
-            <http:error-response statusCode="#[vars.httpStatus default 500]">
-                <http:body><![CDATA[#[payload]]]></http:body>
-                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
-            </http:error-response>
-        </http:listener>
-        <apikit:console config-ref="apiConfig" />
+		<http:listener
+			config-ref="apiHttpsListenerConfig"
+			path="/api/v1/*">
+			<http:response statusCode="#[vars.httpStatus default 200]">
+				<http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+			</http:response>
+			<http:error-response statusCode="#[vars.httpStatus default 500]">
+				<http:body><![CDATA[#[payload]]]></http:body>
+				<http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+			</http:error-response>
+		</http:listener>
+		<apikit:router config-ref="apiConfig" />
+		<error-handler ref="api-main-error-handler" />
+	</flow>
+
+	<flow name="api-console">
+		<http:listener
+			config-ref="apiHttpsListenerConfig"
+			path="/console/v1/*">
+			<http:response statusCode="#[vars.httpStatus default 200]">
+				<http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+			</http:response>
+			<http:error-response statusCode="#[vars.httpStatus default 500]">
+				<http:body><![CDATA[#[payload]]]></http:body>
+				<http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+			</http:error-response>
+		</http:listener>
+		<apikit:console config-ref="apiConfig" />
 		<error-handler ref="api-console-error-handler" />
-    </flow>
-    
-    <flow name="put:\tickets\(PNR)\checkin:application\json:apiConfig">
-        <ee:transform>
-            <ee:variables>
-                <ee:set-variable variableName="PNR">attributes.uriParams.'PNR'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  paymentID: "PAY-1AKD7482FAB9STATKO"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
-    </flow>
-    
-    <flow name="put:\tickets\(PNR)\paymentApproval:application\json:apiConfig">
-        <ee:transform>
-            <ee:variables>
-                <ee:set-variable variableName="PNR">attributes.uriParams.'PNR'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  lastName: "Smith",
-  flightDate: "2019-02-14",
-  depart: "14:30:00",
-  boarding: "13:15:00",
-  gate: "4A",
-  flight: "ANY6584",
-  airportDepart: "ATL",
-  airportArrive: "SFO",
-  class: "Economy",
-  seat: "16C",
-  bagsCount: 2,
-  PNR: "928382J"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
-    </flow>
-    
-    <flow name="get:\tickets\(PNR):apiConfig">
-        <ee:transform>
-            <ee:variables>
-                <ee:set-variable variableName="PNR">attributes.uriParams.'PNR'</ee:set-variable>
-            </ee:variables>
-        </ee:transform>
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-{
-  lastName: "Smith",
-  flightDate: "2019-02-14",
-  depart: "14:30:00",
-  boarding: "13:15:00",
-  gate: "4A",
-  flight: "ANY6584",
-  airportDepart: "ATL",
-  airportArrive: "SFO",
-  class: "Economy",
-  seat: "16C",
-  bagsCount: 2,
-  PNR: "928382J"
-}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
-    </flow>
+	</flow>
+
+	<flow name="put:\tickets\(PNR)\checkin:application\json:apiConfig">
+		<ee:transform>
+			<ee:variables>
+				<ee:set-variable variableName="PNR">attributes.uriParams.'PNR'</ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref
+			doc:name="check-in-by-pnr"
+			doc:id="f44dcb2c-d3d5-4a16-9203-47e2e0f70f2d"
+			name="check-in-by-pnr" />
+	</flow>
+
+	<flow name="put:\tickets\(PNR)\paymentApproval:application\json:apiConfig">
+		<ee:transform>
+			<ee:variables>
+				<ee:set-variable variableName="PNR">attributes.uriParams.'PNR'</ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref
+			doc:name="payment-approval-by-pnr"
+			doc:id="3d676c57-07fc-4472-afb2-f3963e77ba7d"
+			name="payment-approval-by-pnr" />
+	</flow>
+
+	<flow name="get:\tickets\(PNR):apiConfig">
+		<ee:transform>
+			<ee:variables>
+				<ee:set-variable variableName="PNR">attributes.uriParams.'PNR'</ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref
+			doc:name="get-ticket-by-pnr"
+			doc:id="abe1264f-a189-4093-9c7d-80e20056321d"
+			name="get-ticket-by-pnr" />
+	</flow>
 
 </mule>

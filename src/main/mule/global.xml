@@ -1,30 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+<mule
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
 	xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
 	xmlns:http="http://www.mulesoft.org/schema/mule/http"
 	xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
-	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
 http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd 
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
 http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
-	
 
-    <http:listener-config name="apiHttpsListenerConfig">
-        <http:listener-connection host="0.0.0.0" port="8082" protocol="HTTPS" tlsContext="apiTlsContext"/>
-    </http:listener-config>
-	
-	<tls:context name="apiTlsContext" doc:name="TLS Context" doc:id="7eae6e18-5c0c-4869-90d0-e4bc2661f346" >
-		<tls:key-store type="pkcs12" path="certs/check-in-papi-dev.p12" alias="server" keyPassword="mule12345" password="mule12345"/>
+
+	<http:listener-config name="apiHttpsListenerConfig">
+		<http:listener-connection
+			host="0.0.0.0"
+			port="8082"
+			protocol="HTTPS"
+			tlsContext="apiTlsContext" />
+	</http:listener-config>
+
+	<tls:context
+		name="apiTlsContext"
+		doc:name="TLS Context"
+		doc:id="7eae6e18-5c0c-4869-90d0-e4bc2661f346">
+		<tls:key-store
+			type="pkcs12"
+			path="certs/check-in-papi-dev.p12"
+			alias="server"
+			keyPassword="mule12345"
+			password="mule12345" />
 	</tls:context>
-	    
-    <apikit:config name="apiConfig" api="resource::cd8b296d-8848-4a91-98ed-4a47f73703bd:check-in-papi:1.0.0:raml:zip:api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
 
-	
-	<api-gateway:autodiscovery apiId="16734869" ignoreBasePath="true" doc:name="apiAutodiscovery" doc:id="f0e8f222-11f8-4c88-a5cb-961185b9831e" flowRef="api-main" />	
-	
+	<apikit:config
+		name="apiConfig"
+		api="resource::cd8b296d-8848-4a91-98ed-4a47f73703bd:check-in-papi:1.0.0:raml:zip:api.raml"
+		outboundHeadersMapName="outboundHeaders"
+		httpStatusVarName="httpStatus" />
+
+
+	<api-gateway:autodiscovery
+		apiId="16734869"
+		ignoreBasePath="true"
+		doc:name="apiAutodiscovery"
+		doc:id="f0e8f222-11f8-4c88-a5cb-961185b9831e"
+		flowRef="api-main" />
+
 
 </mule>
