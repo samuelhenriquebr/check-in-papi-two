@@ -48,10 +48,20 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 		doc:name="apiAutodiscovery"
 		doc:id="f0e8f222-11f8-4c88-a5cb-961185b9831e"
 		flowRef="api-main" />
-		
+	
 	<configuration-properties
-		doc:name="configurationProperties"
+		doc:name="env-independentConfigurationProperties"
 		doc:id="322cad2c-0e81-4265-881e-b13baf66f0a3"
-		file="properties.yaml" />
+		file="properties.yaml" /> 
 
+	<configuration-properties
+		doc:name="env-dependentConfigurationProperties"
+		doc:id="dcd9442f-3443-4494-bd20-108d34ec7278"
+		file="properties-${env}.yaml" />
+	
+	<global-property
+		doc:name="Global Property"
+		doc:id="5a8bfb38-894a-471a-8d86-6ce297f9d5d5"
+		name="env"
+		value="dev" />
 </mule>

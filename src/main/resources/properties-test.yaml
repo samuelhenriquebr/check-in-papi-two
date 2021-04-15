@@ -1,0 +1,17 @@
+# Contains Properties for TEST Environment
+
+# HTTPS Properties
+https:
+  host: "0.0.0.0"
+  port: "8082"
+  
+# SSL/TLS Properties
+tls.keystore:
+  type: "pkcs12"
+  path: "certs/check-in-papi-test.p12"
+  alias: "server"
+  keyPassword: "mule12345"
+  password: "mule12345"
+  
+api:
+  id: "16784065" 
