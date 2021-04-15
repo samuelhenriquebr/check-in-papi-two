@@ -10,8 +10,6 @@ tls.keystore:
   type: "pkcs12"
   path: "certs/check-in-papi-test.p12"
   alias: "server"
-  keyPassword: "mule12345"
-  password: "mule12345"
   
 api:
   id: "16784065" 

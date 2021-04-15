@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <mule
+	xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
 	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
 	xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
 	xmlns:http="http://www.mulesoft.org/schema/mule/http"
@@ -12,7 +13,8 @@
 http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
 http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd 
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
-http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
 
 
 	<http:listener-config name="apiHttpsListenerConfig">
@@ -31,8 +33,8 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 			type="${tls.keystore.type}"
 			path="${tls.keystore.path}"
 			alias="${tls.keystore.alias}"
-			keyPassword="${tls.keystore.keyPassword}"
-			password="${tls.keystore.password}" />
+			keyPassword="${secure::tls.keystore.keyPassword}"
+			password="${secure::tls.keystore.password}" />
 	</tls:context>
 
 	<apikit:config
@@ -48,20 +50,29 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 		doc:name="apiAutodiscovery"
 		doc:id="f0e8f222-11f8-4c88-a5cb-961185b9831e"
 		flowRef="api-main" />
-	
+
 	<configuration-properties
 		doc:name="env-independentConfigurationProperties"
 		doc:id="322cad2c-0e81-4265-881e-b13baf66f0a3"
-		file="properties.yaml" /> 
+		file="properties.yaml" />
 
 	<configuration-properties
 		doc:name="env-dependentConfigurationProperties"
 		doc:id="dcd9442f-3443-4494-bd20-108d34ec7278"
 		file="properties-${env}.yaml" />
-	
+
 	<global-property
 		doc:name="Global Property"
 		doc:id="5a8bfb38-894a-471a-8d86-6ce297f9d5d5"
 		name="env"
 		value="dev" />
+
+	<secure-properties:config
+		name="Secure_Properties_Config"
+		doc:name="Secure Properties Config"
+		doc:id="06039530-7ac9-47cc-9adf-633c1319416a"
+		file="properties-dev-secure.yaml"
+		key="${encrypt.key}">
+		<secure-properties:encrypt algorithm="Blowfish" />
+	</secure-properties:config>
 </mule>

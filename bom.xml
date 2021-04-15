@@ -19,11 +19,12 @@
 		<app.runtime>4.3.0-20210304</app.runtime>
 		<app.runtime.semver>${app.runtime}</app.runtime.semver>
 		<mule.maven.plugin.version>3.4.2</mule.maven.plugin.version>
-		
+
 		<mule.clean.plugin.version>3.0.0</mule.clean.plugin.version>
 		<mule.resources.plugin.version>3.2.0</mule.resources.plugin.version>
 		<http.connector.version>1.5.24</http.connector.version>
 		<apikit.module.version>1.5.1</apikit.module.version>
+		<mule.secure.config.prop.module.version>1.2.3</mule.secure.config.prop.module.version>
 	</properties>
 
 	<build>
@@ -61,6 +62,12 @@
 				<groupId>org.mule.modules</groupId>
 				<artifactId>mule-apikit-module</artifactId>
 				<version>${apikit.module.version}</version>
+				<classifier>mule-plugin</classifier>
+			</dependency>
+			<dependency>
+				<groupId>com.mulesoft.modules</groupId>
+				<artifactId>mule-secure-configuration-property-module</artifactId>
+				<version>${mule.secure.config.prop.module.version}</version>
 				<classifier>mule-plugin</classifier>
 			</dependency>
 		</dependencies>
