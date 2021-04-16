@@ -16,7 +16,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<app.runtime>4.3.0-20210304</app.runtime>
+		<app.runtime>4.3.0</app.runtime>
 		<app.runtime.semver>${app.runtime}</app.runtime.semver>
 		<mule.maven.plugin.version>3.4.2</mule.maven.plugin.version>
 
@@ -25,6 +25,8 @@
 		<http.connector.version>1.5.24</http.connector.version>
 		<apikit.module.version>1.5.1</apikit.module.version>
 		<mule.secure.config.prop.module.version>1.2.3</mule.secure.config.prop.module.version>
+		
+
 	</properties>
 
 	<build>
