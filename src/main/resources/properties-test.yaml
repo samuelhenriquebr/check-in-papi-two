@@ -13,3 +13,8 @@ tls.keystore:
   
 api:
   id: "16784065" 
+  
+# JSON Logger Properties
+logger:
+  prettyPrint: "true"
+  disabledFields: "content"

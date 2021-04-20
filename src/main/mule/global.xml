@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <mule
+	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger"
 	xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
 	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
 	xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
@@ -14,7 +15,8 @@ http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/m
 http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd 
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
 http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
 
 
 	<http:listener-config name="apiHttpsListenerConfig">
@@ -75,4 +77,16 @@ http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/sc
 		key="${encrypt.key}">
 		<secure-properties:encrypt algorithm="Blowfish" />
 	</secure-properties:config>
+
+
+	<json-logger:config
+		name="jLogConfig"
+		doc:name="JSON Logger Config"
+		doc:id="547e975b-b336-4f8a-86c0-4728ad509086"
+		applicationName="${api.artifactId}"
+		applicationVersion="${api.version}"
+		environment="${env}"
+		prettyPrint="${logger.prettyPrint}"
+		disabledFields="${logger.disabledFields}" />
+
 </mule>
