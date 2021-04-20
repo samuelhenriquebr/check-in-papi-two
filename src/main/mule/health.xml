@@ -7,67 +7,18 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
-	<flow
-		name="api-alive"
-		doc:id="2831d506-e60a-4e3c-9d81-3b3435cc41a8">
-		<http:listener
-			doc:name="GET /alive"
-			doc:id="0c3d7fa9-c75d-4639-9adb-80b443f37f02"
-			config-ref="apiHttpsListenerConfig"
-			path="/alive"
-			allowedMethods="GET">
-			<http:response
-				statusCode="200"
-				reasonPhrase="API IS ALIVE" />
-			<http:error-response
-				statusCode="503"
-				reasonPhrase="API IS NOT ALIVE">
-				<http:body><![CDATA[#['DOWN']]]></http:body>
-			</http:error-response>
-		</http:listener>
-		<set-payload
-			value="#['UP']"
-			doc:name="Set Payload"
-			doc:id="0f7ac79f-3310-4b60-b06b-b66534f7619f" />
-	</flow>
 
-	<flow
-		name="api-ready"
-		doc:id="b0d7d6c7-b59c-45f8-a482-58f9f123eb04">
-		<http:listener
-			doc:name="GET /ready"
-			doc:id="52866b3e-48f5-4664-a836-06e7edc7186a"
-			config-ref="apiHttpsListenerConfig"
-			path="/ready"
-			allowedMethods="GET">
-			<http:response
-				statusCode="200"
-				reasonPhrase="API IS READY" />
-			<http:error-response
-				statusCode="503"
-				reasonPhrase="API IS NOT READY">
-				<http:body><![CDATA[#['DOWN']]]></http:body>
-			</http:error-response>
-		</http:listener>
-		<flow-ref
-			doc:name="Flow Reference"
-			doc:id="80475a10-08ba-49f5-a6a4-637a22c4e61e"
-			name="check-All-Dependecies-Are-Alive" />
-		<set-payload
-			value="#[payload]"
-			doc:name="Set Payload"
-			doc:id="54ad977a-ab64-40f1-83dd-f6c7cef4c67f" />
-	
-</flow>
-
+	<import
+		doc:name="Import"
+		doc:id="2e46928b-6736-499d-b215-cba7ab43934e"
+		file="health-commons.xml" />
 
 	<sub-flow
 		name="check-All-Dependecies-Are-Alive"
 		doc:id="70259159-466d-4eab-a50b-36f2c725b097">
 		<set-payload
-			value="#['UP']"
+			value="#[output application/json --- &#10;&quot;$(app.name as String)&quot;: {&#10;	status: 'UP',&#10;	'mule.version': mule.version,&#10;	'server.host': server.host,&#10;	ipAddress: server.ip,&#10;	'server.time': now()&#10;}]"
 			doc:name="Set Payload"
 			doc:id="6f661ba7-4a7e-4a34-9436-755bc6d2d7d2" />
 	</sub-flow>
-	
 </mule>
