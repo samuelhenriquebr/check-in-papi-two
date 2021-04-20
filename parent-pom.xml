@@ -25,6 +25,12 @@
 		<deployment.suffix>-${deployment.env}</deployment.suffix>
 		<deployment.name>${deployment.prefix}${project.artifactId}${deployment.suffix}</deployment.name>
 		<ap.environment>${deployment.env}</ap.environment>
+		
+		<api.layer.eapi>Experience</api.layer.eapi>
+		<api.layer.papi>Process</api.layer.papi>
+		<api.layer.sapi>System</api.layer.sapi>
+		<api.layer.backend>Backend</api.layer.backend>
+		<api.layer.none>None</api.layer.none>
 	</properties>
 
 	<build>
@@ -81,6 +87,9 @@
 								<anypoint.platform.client_secret>${ap.client_secret}</anypoint.platform.client_secret>
 								<env>${ap.environment}</env>
 								<encrypt.key>${encrypt.key}</encrypt.key>
+								<anypoint.platform.config.analytics.agent.enabled>true</anypoint.platform.config.analytics.agent.enabled>
+								<anypoint.platform.visualizer.displayName>${project.artifactId}</anypoint.platform.visualizer.displayName>
+								<anypoint.platform.visualizer.layer>${api.layer}</anypoint.platform.visualizer.layer>
 							</properties>
 						</cloudHubDeployment>
 					</configuration>
